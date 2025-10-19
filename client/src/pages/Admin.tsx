@@ -27,7 +27,7 @@ interface Book {
   category?: string;
 }
 
-const ADMIN_PASSWORD = "admin123";
+const ADMIN_PASSWORD = "Mohannad1996$";
 
 export default function Admin() {
   const [, setLocation] = useLocation();
@@ -288,7 +288,7 @@ export default function Admin() {
 
           <div className="mt-6 pt-6 border-t border-gray-200">
             <p className="text-xs text-gray-500 text-center">
-              كلمة المرور الافتراضية: <span className="font-mono">admin123</span>
+              تم تعيين كلمة المرور الخاصة بك
             </p>
           </div>
         </div>
