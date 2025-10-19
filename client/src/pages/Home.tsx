@@ -17,12 +17,14 @@ export default function Home() {
               {/* Doctor Image */}
               <div className="flex justify-center">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-blue-600 rounded-3xl blur-2xl opacity-30" />
-                  <img
-                    src="/doctor-shaker.jpg"
-                    alt="الدكتور شاكر العاروري"
-                    className="relative w-80 h-80 rounded-3xl object-cover shadow-2xl border-4 border-blue-600"
-                  />
+                  <div className="absolute inset-0 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full blur-3xl opacity-40" />
+                  <div className="relative w-96 h-96 rounded-full bg-gradient-to-br from-yellow-400 via-yellow-500 to-yellow-600 p-2 shadow-2xl">
+                    <img
+                      src="/doctor-shaker.jpg"
+                      alt="الدكتور شاكر العاروري"
+                      className="w-full h-full rounded-full object-cover border-4 border-white"
+                    />
+                  </div>
                 </div>
               </div>
 
