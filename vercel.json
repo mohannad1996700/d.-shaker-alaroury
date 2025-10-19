@@ -1,0 +1,17 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/public",
+  "framework": "vite",
+  "devCommand": "npm run dev",
+  "env": {
+    "VITE_APP_TITLE": "موقع الدكتور شاكر العاروري",
+    "VITE_APP_LOGO": "/logo.png"
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
+
