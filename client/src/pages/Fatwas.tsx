@@ -45,52 +45,59 @@ export default function Fatwas() {
   const categories = Array.from(new Set(fatwas.map((f) => f.category || "عام")));
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-white">
       <Header />
 
       <main className="flex-1">
         <div className="container py-12">
-          <div className="mb-8">
-            <h1 className="text-4xl font-bold mb-2">الفتاوى</h1>
-            <p className="text-muted-foreground">
+          {/* Page Header */}
+          <div className="mb-12 text-center">
+            <h1 className="text-5xl font-bold text-teal-900 mb-4">الفتاوى</h1>
+            <p className="text-xl text-gray-700">
               فتاوى شرعية وإجابات على أسئلة دينية متنوعة
             </p>
           </div>
 
           {/* Add Fatwa Form */}
-          <div className="bg-card border border-border rounded-lg p-6 mb-8">
-            <h2 className="text-xl font-semibold mb-4">إضافة فتوى جديدة</h2>
+          <div className="bg-gradient-to-br from-teal-50 to-teal-100 border-2 border-teal-300 rounded-2xl p-8 mb-12">
+            <h2 className="text-2xl font-bold text-teal-900 mb-6">إضافة فتوى جديدة</h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-2">عنوان الفتوى</label>
+                <label className="block text-sm font-semibold text-teal-900 mb-2">عنوان الفتوى</label>
                 <Input
                   placeholder="أدخل عنوان الفتوى"
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && addFatwa()}
+                  className="border-2 border-teal-300 focus:border-teal-500"
                 />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium mb-2">رابط اليوتيوب</label>
+                  <label className="block text-sm font-semibold text-teal-900 mb-2">رابط اليوتيوب</label>
                   <Input
-                    placeholder="https://www.youtube.com/watch?v=... أو معرف الفيديو"
+                    placeholder="https://www.youtube.com/watch?v=..."
                     value={newUrl}
                     onChange={(e) => setNewUrl(e.target.value)}
                     onKeyPress={(e) => e.key === "Enter" && addFatwa()}
+                    className="border-2 border-teal-300 focus:border-teal-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">الفئة</label>
+                  <label className="block text-sm font-semibold text-teal-900 mb-2">الفئة</label>
                   <Input
                     placeholder="مثال: العبادات، المعاملات"
                     value={newCategory}
                     onChange={(e) => setNewCategory(e.target.value)}
                     onKeyPress={(e) => e.key === "Enter" && addFatwa()}
+                    className="border-2 border-teal-300 focus:border-teal-500"
                   />
                 </div>
               </div>
-              <Button onClick={addFatwa} className="gap-2">
+              <Button 
+                onClick={addFatwa} 
+                className="gap-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold"
+              >
                 <Plus className="w-4 h-4" />
                 إضافة فتوى
               </Button>
@@ -101,20 +108,20 @@ export default function Fatwas() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Fatwas List */}
             <div className="lg:col-span-1">
-              <div className="bg-card border border-border rounded-lg overflow-hidden">
-                <div className="p-4 border-b border-border bg-accent/5">
-                  <h3 className="font-semibold">الفتاوى ({fatwas.length})</h3>
+              <div className="bg-white border-2 border-teal-300 rounded-2xl overflow-hidden shadow-lg">
+                <div className="p-6 bg-gradient-to-r from-teal-600 to-teal-700 text-white">
+                  <h3 className="font-bold text-xl">الفتاوى ({fatwas.length})</h3>
                 </div>
                 
                 {fatwas.length === 0 ? (
-                  <div className="p-4 text-center text-muted-foreground">
+                  <div className="p-6 text-center text-gray-500">
                     لا توجد فتاوى بعد. أضف فتوى جديدة!
                   </div>
                 ) : (
-                  <div className="divide-y divide-border max-h-96 overflow-y-auto">
+                  <div className="divide-y divide-teal-200 max-h-96 overflow-y-auto">
                     {categories.map((category) => (
                       <div key={category}>
-                        <div className="px-4 py-2 bg-accent/5 text-xs font-semibold text-muted-foreground sticky top-0">
+                        <div className="px-4 py-3 bg-teal-50 text-xs font-bold text-teal-700 sticky top-0">
                           {category}
                         </div>
                         {fatwas
@@ -124,22 +131,22 @@ export default function Fatwas() {
                               key={fatwa.id}
                               className={`p-4 cursor-pointer transition-colors ${
                                 selectedFatwa?.id === fatwa.id
-                                  ? "bg-primary/10 border-l-4 border-primary"
-                                  : "hover:bg-accent/5"
+                                  ? "bg-teal-100 border-l-4 border-teal-600"
+                                  : "hover:bg-teal-50"
                               }`}
                             >
                               <div
                                 onClick={() => setSelectedFatwa(fatwa)}
                                 className="flex items-start gap-3 mb-2"
                               >
-                                <Play className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                                <Play className="w-4 h-4 text-teal-600 mt-1 flex-shrink-0" />
                                 <div className="flex-1 min-w-0">
-                                  <p className="font-medium text-sm line-clamp-2">{fatwa.title}</p>
+                                  <p className="font-semibold text-sm text-gray-900 line-clamp-2">{fatwa.title}</p>
                                 </div>
                               </div>
                               <button
                                 onClick={() => deleteFatwa(fatwa.id)}
-                                className="text-xs text-destructive hover:text-destructive/80 flex items-center gap-1"
+                                className="text-xs text-red-600 hover:text-red-800 flex items-center gap-1"
                               >
                                 <Trash2 className="w-3 h-3" />
                                 حذف
@@ -162,10 +169,10 @@ export default function Fatwas() {
                   onClose={() => setSelectedFatwa(null)}
                 />
               ) : (
-                <div className="aspect-video bg-card border border-border rounded-lg flex items-center justify-center">
+                <div className="aspect-video bg-gradient-to-br from-teal-100 to-teal-50 border-2 border-teal-300 rounded-2xl flex items-center justify-center shadow-lg">
                   <div className="text-center">
-                    <Play className="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
-                    <p className="text-muted-foreground">اختر فتوى لتشغيلها</p>
+                    <Play className="w-16 h-16 text-teal-300 mx-auto mb-4" />
+                    <p className="text-teal-700 font-semibold">اختر فتوى لتشغيلها</p>
                   </div>
                 </div>
               )}

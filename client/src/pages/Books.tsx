@@ -52,71 +52,79 @@ export default function Books() {
   const categories = Array.from(new Set(books.map((b) => b.category || "عام")));
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-white">
       <Header />
 
       <main className="flex-1">
         <div className="container py-12">
-          <div className="mb-8">
-            <h1 className="text-4xl font-bold mb-2">الكتب</h1>
-            <p className="text-muted-foreground">
-              مؤلفات وكتب علمية في مختلف المجالات الشرعية - اقرأ الكتب مباشرة من الموقع
+          {/* Page Header */}
+          <div className="mb-12 text-center">
+            <h1 className="text-5xl font-bold text-amber-900 mb-4">الكتب</h1>
+            <p className="text-xl text-gray-700">
+              مؤلفات وكتب علمية في مختلف المجالات الشرعية
             </p>
           </div>
 
           {/* Add Book Form */}
-          <div className="bg-card border border-border rounded-lg p-6 mb-8">
-            <h2 className="text-xl font-semibold mb-4">إضافة كتاب جديد</h2>
+          <div className="bg-gradient-to-br from-amber-50 to-amber-100 border-2 border-amber-300 rounded-2xl p-8 mb-12">
+            <h2 className="text-2xl font-bold text-amber-900 mb-6">إضافة كتاب جديد</h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-2">عنوان الكتاب</label>
+                <label className="block text-sm font-semibold text-amber-900 mb-2">عنوان الكتاب</label>
                 <Input
                   placeholder="أدخل عنوان الكتاب"
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
+                  className="border-2 border-amber-300 focus:border-amber-500"
                 />
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium mb-2">المؤلف</label>
+                  <label className="block text-sm font-semibold text-amber-900 mb-2">المؤلف</label>
                   <Input
                     placeholder="الدكتور شاكر العاروري"
                     value={newAuthor}
                     onChange={(e) => setNewAuthor(e.target.value)}
+                    className="border-2 border-amber-300 focus:border-amber-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">الفئة</label>
+                  <label className="block text-sm font-semibold text-amber-900 mb-2">الفئة</label>
                   <Input
                     placeholder="مثال: الحديث، الفقه"
                     value={newCategory}
                     onChange={(e) => setNewCategory(e.target.value)}
+                    className="border-2 border-amber-300 focus:border-amber-500"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2">الوصف</label>
+                <label className="block text-sm font-semibold text-amber-900 mb-2">الوصف</label>
                 <textarea
                   placeholder="وصف الكتاب"
                   value={newDescription}
                   onChange={(e) => setNewDescription(e.target.value)}
-                  className="w-full px-3 py-2 border border-input rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+                  className="w-full px-3 py-2 border-2 border-amber-300 rounded-lg bg-white text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-amber-500"
                   rows={3}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2">رابط الكتاب (اختياري)</label>
+                <label className="block text-sm font-semibold text-amber-900 mb-2">رابط الكتاب (اختياري)</label>
                 <Input
                   placeholder="https://example.com/book"
                   value={newUrl}
                   onChange={(e) => setNewUrl(e.target.value)}
+                  className="border-2 border-amber-300 focus:border-amber-500"
                 />
               </div>
 
-              <Button onClick={addBook} className="gap-2">
+              <Button 
+                onClick={addBook} 
+                className="gap-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold"
+              >
                 <Plus className="w-4 h-4" />
                 إضافة كتاب
               </Button>
@@ -126,44 +134,46 @@ export default function Books() {
           {/* Books Display */}
           {books.length === 0 ? (
             <div className="text-center py-12">
-              <BookOpen className="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
-              <p className="text-muted-foreground">لا توجد كتب بعد. أضف كتاب جديد!</p>
+              <BookOpen className="w-16 h-16 text-amber-300 mx-auto mb-4" />
+              <p className="text-gray-500 text-lg">لا توجد كتب بعد. أضف كتاب جديد!</p>
             </div>
           ) : (
-            <div className="space-y-8">
+            <div className="space-y-12">
               {categories.map((category) => (
                 <div key={category}>
-                  <h3 className="text-2xl font-semibold mb-4 text-primary">{category}</h3>
+                  <h3 className="text-3xl font-bold text-amber-900 mb-6 pb-3 border-b-4 border-amber-300">
+                    {category}
+                  </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {books
                       .filter((b) => (b.category || "عام") === category)
                       .map((book) => (
                         <div
                           key={book.id}
-                          className="bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-shadow flex flex-col"
+                          className="bg-white border-2 border-amber-200 rounded-2xl p-6 hover:shadow-xl transition-shadow flex flex-col"
                         >
                           <div className="flex items-start justify-between mb-4">
                             <div className="flex items-start gap-3 flex-1">
-                              <BookOpen className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                              <BookOpen className="w-6 h-6 text-amber-600 flex-shrink-0 mt-1" />
                               <div className="flex-1 min-w-0">
-                                <h4 className="font-semibold text-lg line-clamp-2 mb-1">
+                                <h4 className="font-bold text-lg text-gray-900 line-clamp-2 mb-1">
                                   {book.title}
                                 </h4>
                                 {book.author && (
-                                  <p className="text-sm text-muted-foreground">{book.author}</p>
+                                  <p className="text-sm text-gray-600">{book.author}</p>
                                 )}
                               </div>
                             </div>
                             <button
                               onClick={() => deleteBook(book.id)}
-                              className="text-destructive hover:text-destructive/80 transition-colors flex-shrink-0"
+                              className="text-red-600 hover:text-red-800 transition-colors flex-shrink-0"
                             >
                               <Trash2 className="w-4 h-4" />
                             </button>
                           </div>
 
                           {book.description && (
-                            <p className="text-sm text-muted-foreground mb-4 line-clamp-3 flex-1">
+                            <p className="text-sm text-gray-600 mb-4 line-clamp-3 flex-1">
                               {book.description}
                             </p>
                           )}
@@ -172,9 +182,8 @@ export default function Books() {
                             {book.hasInternalReader && (
                               <Button
                                 onClick={() => setSelectedBookForReading(book)}
-                                variant="default"
+                                className="gap-2 flex-1 bg-amber-600 hover:bg-amber-700 text-white font-semibold"
                                 size="sm"
-                                className="gap-2 flex-1"
                               >
                                 <Eye className="w-4 h-4" />
                                 اقرأ الآن
@@ -190,7 +199,7 @@ export default function Books() {
                                 <Button
                                   variant="outline"
                                   size="sm"
-                                  className="gap-2 w-full"
+                                  className="gap-2 w-full border-2 border-amber-300 text-amber-700 hover:bg-amber-50"
                                 >
                                   <ExternalLink className="w-4 h-4" />
                                   تحميل

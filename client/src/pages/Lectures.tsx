@@ -39,41 +39,47 @@ export default function Lectures() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-white">
       <Header />
 
       <main className="flex-1">
         <div className="container py-12">
-          <div className="mb-8">
-            <h1 className="text-4xl font-bold mb-2">المحاضرات</h1>
-            <p className="text-muted-foreground">
+          {/* Page Header */}
+          <div className="mb-12 text-center">
+            <h1 className="text-5xl font-bold text-blue-900 mb-4">المحاضرات</h1>
+            <p className="text-xl text-gray-700">
               استمع إلى محاضرات فضيلة الدكتور شاكر العاروري القيمة
             </p>
           </div>
 
           {/* Add Lecture Form */}
-          <div className="bg-card border border-border rounded-lg p-6 mb-8">
-            <h2 className="text-xl font-semibold mb-4">إضافة محاضرة جديدة</h2>
+          <div className="bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-300 rounded-2xl p-8 mb-12">
+            <h2 className="text-2xl font-bold text-blue-900 mb-6">إضافة محاضرة جديدة</h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-2">عنوان المحاضرة</label>
+                <label className="block text-sm font-semibold text-blue-900 mb-2">عنوان المحاضرة</label>
                 <Input
                   placeholder="أدخل عنوان المحاضرة"
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && addLecture()}
+                  className="border-2 border-blue-300 focus:border-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">رابط اليوتيوب</label>
+                <label className="block text-sm font-semibold text-blue-900 mb-2">رابط اليوتيوب</label>
                 <Input
                   placeholder="https://www.youtube.com/watch?v=... أو معرف الفيديو"
                   value={newUrl}
                   onChange={(e) => setNewUrl(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && addLecture()}
+                  className="border-2 border-blue-300 focus:border-blue-500"
                 />
               </div>
-              <Button onClick={addLecture} className="gap-2">
+              <Button 
+                onClick={addLecture} 
+                className="gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold"
+              >
                 <Plus className="w-4 h-4" />
                 إضافة محاضرة
               </Button>
@@ -84,13 +90,13 @@ export default function Lectures() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Lectures List */}
             <div className="lg:col-span-1">
-              <div className="bg-card border border-border rounded-lg overflow-hidden">
-                <div className="p-4 border-b border-border bg-accent/5">
-                  <h3 className="font-semibold">المحاضرات ({lectures.length})</h3>
+              <div className="bg-white border-2 border-blue-300 rounded-2xl overflow-hidden shadow-lg">
+                <div className="p-6 bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+                  <h3 className="font-bold text-xl">المحاضرات ({lectures.length})</h3>
                 </div>
-                <div className="divide-y divide-border max-h-96 overflow-y-auto">
+                <div className="divide-y divide-blue-200 max-h-96 overflow-y-auto">
                   {lectures.length === 0 ? (
-                    <div className="p-4 text-center text-muted-foreground">
+                    <div className="p-6 text-center text-gray-500">
                       لا توجد محاضرات بعد. أضف محاضرة جديدة!
                     </div>
                   ) : (
@@ -99,22 +105,22 @@ export default function Lectures() {
                         key={lecture.id}
                         className={`p-4 cursor-pointer transition-colors ${
                           selectedLecture?.id === lecture.id
-                            ? "bg-primary/10 border-l-4 border-primary"
-                            : "hover:bg-accent/5"
+                            ? "bg-blue-100 border-l-4 border-blue-600"
+                            : "hover:bg-blue-50"
                         }`}
                       >
                         <div
                           onClick={() => setSelectedLecture(lecture)}
                           className="flex items-start gap-3 mb-2"
                         >
-                          <Play className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                          <Play className="w-4 h-4 text-blue-600 mt-1 flex-shrink-0" />
                           <div className="flex-1 min-w-0">
-                            <p className="font-medium text-sm line-clamp-2">{lecture.title}</p>
+                            <p className="font-semibold text-sm text-gray-900 line-clamp-2">{lecture.title}</p>
                           </div>
                         </div>
                         <button
                           onClick={() => deleteLecture(lecture.id)}
-                          className="text-xs text-destructive hover:text-destructive/80 flex items-center gap-1"
+                          className="text-xs text-red-600 hover:text-red-800 flex items-center gap-1"
                         >
                           <Trash2 className="w-3 h-3" />
                           حذف
@@ -135,10 +141,10 @@ export default function Lectures() {
                   onClose={() => setSelectedLecture(null)}
                 />
               ) : (
-                <div className="aspect-video bg-card border border-border rounded-lg flex items-center justify-center">
+                <div className="aspect-video bg-gradient-to-br from-blue-100 to-blue-50 border-2 border-blue-300 rounded-2xl flex items-center justify-center shadow-lg">
                   <div className="text-center">
-                    <Play className="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
-                    <p className="text-muted-foreground">اختر محاضرة لتشغيلها</p>
+                    <Play className="w-16 h-16 text-blue-300 mx-auto mb-4" />
+                    <p className="text-blue-700 font-semibold">اختر محاضرة لتشغيلها</p>
                   </div>
                 </div>
               )}
