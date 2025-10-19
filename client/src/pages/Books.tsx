@@ -26,23 +26,26 @@ export default function Books() {
   const [selectedBookForReading, setSelectedBookForReading] = useState<Book | null>(null);
 
   const addBook = () => {
-    if (newTitle.trim()) {
-      const newBook: Book = {
-        id: Date.now().toString(),
-        title: newTitle,
-        author: newAuthor || "الدكتور شاكر العاروري",
-        description: newDescription,
-        url: newUrl,
-        category: newCategory || "عام",
-        hasInternalReader: true,
-      };
-      setBooks([...books, newBook]);
-      setNewTitle("");
-      setNewAuthor("");
-      setNewDescription("");
-      setNewUrl("");
-      setNewCategory("");
+    if (!newTitle.trim()) {
+      alert("الرجاء إدخال عنوان الكتاب");
+      return;
     }
+    const newBook: Book = {
+      id: Date.now().toString(),
+      title: newTitle,
+      author: newAuthor || "الدكتور شاكر العاروري",
+      description: newDescription,
+      url: newUrl,
+      category: newCategory || "عام",
+      hasInternalReader: true,
+    };
+    setBooks([...books, newBook]);
+    setNewTitle("");
+    setNewAuthor("");
+    setNewDescription("");
+    setNewUrl("");
+    setNewCategory("");
+    alert("تمت إضافة الكتاب بنجاح!");
   };
 
   const deleteBook = (id: string) => {

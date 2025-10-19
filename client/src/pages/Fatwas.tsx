@@ -21,18 +21,25 @@ export default function Fatwas() {
   const [newCategory, setNewCategory] = useState("");
 
   const addFatwa = () => {
-    if (newTitle.trim() && newUrl.trim()) {
-      const newFatwa: Fatwa = {
-        id: Date.now().toString(),
-        title: newTitle,
-        youtubeUrl: newUrl,
-        category: newCategory || "عام",
-      };
-      setFatwas([...fatwas, newFatwa]);
-      setNewTitle("");
-      setNewUrl("");
-      setNewCategory("");
+    if (!newTitle.trim()) {
+      alert("الرجاء إدخال عنوان الفتوى");
+      return;
     }
+    if (!newUrl.trim()) {
+      alert("الرجاء إدخال رابط اليوتيوب");
+      return;
+    }
+    const newFatwa: Fatwa = {
+      id: Date.now().toString(),
+      title: newTitle,
+      youtubeUrl: newUrl,
+      category: newCategory || "عام",
+    };
+    setFatwas([...fatwas, newFatwa]);
+    setNewTitle("");
+    setNewUrl("");
+    setNewCategory("");
+    alert("تمت إضافة الفتوى بنجاح!");
   };
 
   const deleteFatwa = (id: string) => {

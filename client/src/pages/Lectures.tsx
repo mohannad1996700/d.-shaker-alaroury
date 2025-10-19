@@ -19,16 +19,23 @@ export default function Lectures() {
   const [newUrl, setNewUrl] = useState("");
 
   const addLecture = () => {
-    if (newTitle.trim() && newUrl.trim()) {
-      const newLecture: Lecture = {
-        id: Date.now().toString(),
-        title: newTitle,
-        youtubeUrl: newUrl,
-      };
-      setLectures([...lectures, newLecture]);
-      setNewTitle("");
-      setNewUrl("");
+    if (!newTitle.trim()) {
+      alert("الرجاء إدخال عنوان المحاضرة");
+      return;
     }
+    if (!newUrl.trim()) {
+      alert("الرجاء إدخال رابط اليوتيوب");
+      return;
+    }
+    const newLecture: Lecture = {
+      id: Date.now().toString(),
+      title: newTitle,
+      youtubeUrl: newUrl,
+    };
+    setLectures([...lectures, newLecture]);
+    setNewTitle("");
+    setNewUrl("");
+    alert("تمت إضافة المحاضرة بنجاح!");
   };
 
   const deleteLecture = (id: string) => {
