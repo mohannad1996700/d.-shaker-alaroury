@@ -1,9 +1,10 @@
 import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import BookReader from "@/components/BookReader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus, Trash2, BookOpen, ExternalLink } from "lucide-react";
+import { Plus, Trash2, BookOpen, ExternalLink, Eye } from "lucide-react";
 
 interface Book {
   id: string;
@@ -12,6 +13,7 @@ interface Book {
   description?: string;
   url?: string;
   category?: string;
+  hasInternalReader?: boolean;
 }
 
 export default function Books() {
@@ -21,6 +23,7 @@ export default function Books() {
   const [newDescription, setNewDescription] = useState("");
   const [newUrl, setNewUrl] = useState("");
   const [newCategory, setNewCategory] = useState("");
+  const [selectedBookForReading, setSelectedBookForReading] = useState<Book | null>(null);
 
   const addBook = () => {
     if (newTitle.trim()) {
@@ -31,6 +34,7 @@ export default function Books() {
         description: newDescription,
         url: newUrl,
         category: newCategory || "عام",
+        hasInternalReader: true,
       };
       setBooks([...books, newBook]);
       setNewTitle("");
@@ -56,7 +60,7 @@ export default function Books() {
           <div className="mb-8">
             <h1 className="text-4xl font-bold mb-2">الكتب</h1>
             <p className="text-muted-foreground">
-              مؤلفات وكتب علمية في مختلف المجالات الشرعية
+              مؤلفات وكتب علمية في مختلف المجالات الشرعية - اقرأ الكتب مباشرة من الموقع
             </p>
           </div>
 
@@ -136,7 +140,7 @@ export default function Books() {
                       .map((book) => (
                         <div
                           key={book.id}
-                          className="bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-shadow"
+                          className="bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-shadow flex flex-col"
                         >
                           <div className="flex items-start justify-between mb-4">
                             <div className="flex items-start gap-3 flex-1">
@@ -159,22 +163,41 @@ export default function Books() {
                           </div>
 
                           {book.description && (
-                            <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
+                            <p className="text-sm text-muted-foreground mb-4 line-clamp-3 flex-1">
                               {book.description}
                             </p>
                           )}
 
-                          {book.url && (
-                            <a
-                              href={book.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors text-sm font-medium"
-                            >
-                              اقرأ الكتاب
-                              <ExternalLink className="w-4 h-4" />
-                            </a>
-                          )}
+                          <div className="flex gap-2 mt-auto">
+                            {book.hasInternalReader && (
+                              <Button
+                                onClick={() => setSelectedBookForReading(book)}
+                                variant="default"
+                                size="sm"
+                                className="gap-2 flex-1"
+                              >
+                                <Eye className="w-4 h-4" />
+                                اقرأ الآن
+                              </Button>
+                            )}
+                            {book.url && (
+                              <a
+                                href={book.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex-1"
+                              >
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="gap-2 w-full"
+                                >
+                                  <ExternalLink className="w-4 h-4" />
+                                  تحميل
+                                </Button>
+                              </a>
+                            )}
+                          </div>
                         </div>
                       ))}
                   </div>
@@ -184,6 +207,15 @@ export default function Books() {
           )}
         </div>
       </main>
+
+      {/* Book Reader Modal */}
+      {selectedBookForReading && (
+        <BookReader
+          bookId={selectedBookForReading.id}
+          bookTitle={selectedBookForReading.title}
+          onClose={() => setSelectedBookForReading(null)}
+        />
+      )}
 
       <Footer />
     </div>

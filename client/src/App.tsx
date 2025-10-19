@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Lectures from "./pages/Lectures";
 import Fatwas from "./pages/Fatwas";
 import Books from "./pages/Books";
+import Admin from "./pages/Admin";
 
 function Router() {
   return (
@@ -16,6 +17,7 @@ function Router() {
       <Route path={"/lectures"} component={Lectures} />
       <Route path={"/fatwas"} component={Fatwas} />
       <Route path={"/books"} component={Books} />
+      <Route path={"/admin"} component={Admin} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
@@ -45,3 +47,4 @@ function App() {
 }
 
 export default App;
+
