@@ -1,0 +1,192 @@
+import { useState } from "react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Plus, Trash2, BookOpen, ExternalLink } from "lucide-react";
+
+interface Book {
+  id: string;
+  title: string;
+  author?: string;
+  description?: string;
+  url?: string;
+  category?: string;
+}
+
+export default function Books() {
+  const [books, setBooks] = useState<Book[]>([]);
+  const [newTitle, setNewTitle] = useState("");
+  const [newAuthor, setNewAuthor] = useState("");
+  const [newDescription, setNewDescription] = useState("");
+  const [newUrl, setNewUrl] = useState("");
+  const [newCategory, setNewCategory] = useState("");
+
+  const addBook = () => {
+    if (newTitle.trim()) {
+      const newBook: Book = {
+        id: Date.now().toString(),
+        title: newTitle,
+        author: newAuthor || "الدكتور شاكر العاروري",
+        description: newDescription,
+        url: newUrl,
+        category: newCategory || "عام",
+      };
+      setBooks([...books, newBook]);
+      setNewTitle("");
+      setNewAuthor("");
+      setNewDescription("");
+      setNewUrl("");
+      setNewCategory("");
+    }
+  };
+
+  const deleteBook = (id: string) => {
+    setBooks(books.filter((book) => book.id !== id));
+  };
+
+  const categories = Array.from(new Set(books.map((b) => b.category || "عام")));
+
+  return (
+    <div className="min-h-screen flex flex-col bg-background">
+      <Header />
+
+      <main className="flex-1">
+        <div className="container py-12">
+          <div className="mb-8">
+            <h1 className="text-4xl font-bold mb-2">الكتب</h1>
+            <p className="text-muted-foreground">
+              مؤلفات وكتب علمية في مختلف المجالات الشرعية
+            </p>
+          </div>
+
+          {/* Add Book Form */}
+          <div className="bg-card border border-border rounded-lg p-6 mb-8">
+            <h2 className="text-xl font-semibold mb-4">إضافة كتاب جديد</h2>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">عنوان الكتاب</label>
+                <Input
+                  placeholder="أدخل عنوان الكتاب"
+                  value={newTitle}
+                  onChange={(e) => setNewTitle(e.target.value)}
+                />
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2">المؤلف</label>
+                  <Input
+                    placeholder="الدكتور شاكر العاروري"
+                    value={newAuthor}
+                    onChange={(e) => setNewAuthor(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">الفئة</label>
+                  <Input
+                    placeholder="مثال: الحديث، الفقه"
+                    value={newCategory}
+                    onChange={(e) => setNewCategory(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">الوصف</label>
+                <textarea
+                  placeholder="وصف الكتاب"
+                  value={newDescription}
+                  onChange={(e) => setNewDescription(e.target.value)}
+                  className="w-full px-3 py-2 border border-input rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+                  rows={3}
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">رابط الكتاب (اختياري)</label>
+                <Input
+                  placeholder="https://example.com/book"
+                  value={newUrl}
+                  onChange={(e) => setNewUrl(e.target.value)}
+                />
+              </div>
+
+              <Button onClick={addBook} className="gap-2">
+                <Plus className="w-4 h-4" />
+                إضافة كتاب
+              </Button>
+            </div>
+          </div>
+
+          {/* Books Display */}
+          {books.length === 0 ? (
+            <div className="text-center py-12">
+              <BookOpen className="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
+              <p className="text-muted-foreground">لا توجد كتب بعد. أضف كتاب جديد!</p>
+            </div>
+          ) : (
+            <div className="space-y-8">
+              {categories.map((category) => (
+                <div key={category}>
+                  <h3 className="text-2xl font-semibold mb-4 text-primary">{category}</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {books
+                      .filter((b) => (b.category || "عام") === category)
+                      .map((book) => (
+                        <div
+                          key={book.id}
+                          className="bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-shadow"
+                        >
+                          <div className="flex items-start justify-between mb-4">
+                            <div className="flex items-start gap-3 flex-1">
+                              <BookOpen className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                              <div className="flex-1 min-w-0">
+                                <h4 className="font-semibold text-lg line-clamp-2 mb-1">
+                                  {book.title}
+                                </h4>
+                                {book.author && (
+                                  <p className="text-sm text-muted-foreground">{book.author}</p>
+                                )}
+                              </div>
+                            </div>
+                            <button
+                              onClick={() => deleteBook(book.id)}
+                              className="text-destructive hover:text-destructive/80 transition-colors flex-shrink-0"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+
+                          {book.description && (
+                            <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
+                              {book.description}
+                            </p>
+                          )}
+
+                          {book.url && (
+                            <a
+                              href={book.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors text-sm font-medium"
+                            >
+                              اقرأ الكتاب
+                              <ExternalLink className="w-4 h-4" />
+                            </a>
+                          )}
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
+
